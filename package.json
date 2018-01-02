@@ -1,0 +1,62 @@
+{
+  "name": "lavas-react",
+  "version": "1.0.0",
+  "description": "lavas-react",
+  "main": "index.js",
+  "dependencies": {
+    "babel-loader": "^7.1.2",
+    "babel-runtime": "^6.26.0",
+    "chalk": "^2.3.0",
+    "crypto": "^1.0.1",
+    "css-loader": "^0.28.7",
+    "fs-extra": "^5.0.0",
+    "glob": "^7.1.2",
+    "html-webpack-plugin": "^2.30.1",
+    "koa": "^2.4.1",
+    "koa-compose": "^4.0.0",
+    "koa-router": "^7.3.0",
+    "koa-static": "^4.0.2",
+    "lodash": "^4.17.4",
+    "lodash.template": "^4.4.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
+    "react-router-dom": "^4.2.2",
+    "react-transition-group": "^2.2.1",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
+    "stylus-loader": "^3.0.1",
+    "url-loader": "^0.6.2",
+    "webpack": "^3.10.0",
+    "webpack-merge": "^4.1.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "babel-node src/server.dev.js"
+  },
+  "keywords": [
+    "lavas-react"
+  ],
+  "author": "lavas",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-dynamic-import-node": "^1.2.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "bundle-loader": "^0.5.5",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "fecs": "^1.5.4",
+    "friendly-errors-webpack-plugin": "^1.6.1",
+    "koa-webpack-middleware": "^1.0.7",
+    "react-dev-utils": "^4.2.1",
+    "style-loader": "^0.19.1",
+    "stylus": "^0.54.5"
+  }
+}
