@@ -61,99 +61,22 @@ export default class LavasCore {
         middlewares.push(webpackDevMiddlewareInstance);
         middlewares.push(hotMiddleware(compiler));
 
-        if (this.config.entry.ssr) {
-            middlewares.push(this.ssrMiddleware());
+        router.get('*', (ctx, next) => {
+            ctx.type = 'text/html';
 
-            // /*
-            // 首先要弄清楚流程：
-            // 请求到达 
-            // */
-            // router.get('*', (ctx, next) => {
-            //     const renderToString = require('react-dom/server');
-            //     const StaticRouter = require('react-router').StaticRouter;
-            //     const store = require(join(this.cwd, 'core/createStore')).store;
-            //     const App = require(join(this.cwd, 'core/App'));
+            // let entry = ctx.url.replace(/^\//, '');
+            let entry = 'index.html';
 
-            //     const {res, req} = ctx;
-            //     // This context object contains the results of the render
-            //     const context = {};
-
-            //     const html = renderToString(
-            //         <StaticRouter location={req.url} context={context}>
-            //             <App />
-            //         </StaticRouter>
-            //     );
-
-            //     state = store.getState();
-
-            //     window.__INITIAL_STATE__ = state;
-
-            //     if (context.url) {
-            //         res.writeHead(302, {
-            //             Location: context.url
-            //         });
-            //         res.end();
-            //     }
-            //     else {
-            //         res.write(html)
-            //         res.end();
-            //     }
-            // });
-        }
-        else {
-            router.get('*', (ctx, next) => {
-                ctx.type = 'text/html';
-
-                // let entry = ctx.url.replace(/^\//, '');
-                let entry = 'index.html';
-
-                let filepath = join(compiler.outputPath, entry);
-                webpackDevMiddlewareInstance.waitUntilValid(() => {
-                    ctx.body = compiler.outputFileSystem.readFileSync(filepath) + '';
-                });
+            let filepath = join(compiler.outputPath, entry);
+            webpackDevMiddlewareInstance.waitUntilValid(() => {
+                ctx.body = compiler.outputFileSystem.readFileSync(filepath) + '';
             });
-        }
+        });
 
         middlewares.push(router.routes());
         middlewares.push(router.allowedMethods());  
 
         return composer(middlewares);
-    }
-
-    ssrMiddleware() {
-        let {config, cwd} = this;
-        return async function (req, res, next) {
-            let url = req.url;
-            console.log(`[Lavas] route middleware: ssr ${url}`);
-
-            const react = require('react');
-            const renderToString = require('react-dom/server').renderToString;
-            const StaticRouter = require('react-router').StaticRouter;
-            const App = require(join(cwd, 'core/App'));
-
-            // This context object contains the results of the render
-            const context = {};
-            // render to string
-            const html = renderToString(
-                <StaticRouter location={url} context={context}>
-                    <App />
-                </StaticRouter>
-            );
-            console.log(html)
-
-            window.__INITIAL_STATE__ = {initial: 1};
-
-            if (context.url) {
-                res.writeHead(302, {
-                    Location: context.url
-                });
-                res.end();
-            }
-            else {
-                res.write(html)
-                res.end();
-            }
-        };
     }
 
 };
