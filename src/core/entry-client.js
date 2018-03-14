@@ -1,10 +1,10 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
 import createApp from './createApp';
-import createStore from './createStore';
 
-const {store, actions, routes, history} = createStore();
+const {App, store, actions, routes} = createApp();
 
 ReactDOM.render(
-    createApp({store, routes, actions}),
+    <App store={store} actions={actions} routes={routes} />,
     document.getElementById('app')
 );

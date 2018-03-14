@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh_CN" ${helmet.htmlAttributes.toString()}>
+    <head>
+        ${helmet.title.toString()}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- Add to home screen for Safari on iOS -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        ${helmet.meta.toString()}
+        ${helmet.style.toString()}
+        ${helmet.link.toString()}
+        ${helmet.script.toString()}
+        ${helmet.noscript.toString()}
+    </head>
+    <body ${helmet.bodyAttributes.toString()}>
+        <div id="app">${content}</div>
+        <script>
+          window.__INITIAL_STATE__ = ${JSON.stringify(data)};
+        </script>
+        <% for (let chunk in manifest) { %>
+          <script src="${config.build.publicPath.replace(/\/$/, '')}${manifest[chunk]}"></script>
+        <% } %>
+    </body>
+</html>

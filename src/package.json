@@ -1,0 +1,17 @@
+{
+  "name": "lavas-react-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.dev.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "iscroll": "^5.2.0",
+    "normalize.css": "^8.0.0",
+    "react-css-modules": "^4.7.1",
+    "react-transition-group": "^2.2.1"
+  }
+}

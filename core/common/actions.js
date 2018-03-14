@@ -56,16 +56,15 @@ function getModule(filename) {
     const file = context(filename);
     const module = file.default || file;
 
-    if (typeof module !== 'function' && !module.action && !~filename.search(/[aA]ction/)) {
-        return false;
-    }
-
+    // export default function action() {}
     if (typeof module === 'function') {
         return [{
             [module.name]: module
         }];
     }
 
+    // export function action(){}  ...  export function reducer(){}
+    // single action
     if (typeof module !== 'function' && module.action) {
         if (typeof module.action !== 'function') {
             throw new Error(
@@ -76,15 +75,25 @@ function getModule(filename) {
         return module.action;
     }
 
-    let actions = [];
+    if (typeof module !== 'function' && !module.action && !module.actions && !~filename.search(/[aA]ction/)) {
+        return false;
+    }
 
-    if (Object.prototype.toString(module) === '[object Object]') {
-        for (let k in module) {
-            if (module.hasOwnProperty(k) && typeof module[k] === 'function') {
-                actions.push({
-                    [k]: module[k]
-                });
-            }
+    // multiple actions
+    let actions = [];
+    let target = module;
+
+    if (typeof module !== 'function' && module.actions
+        && Object.prototype.toString(module.actions) === '[object Object]'
+    ) {
+        target = module.actions;
+    }
+
+    for (let k in target) {
+        if (target.hasOwnProperty(k) && typeof target[k] === 'function') {
+            actions.push({
+                [k]: target[k]
+            });
         }
     }
 

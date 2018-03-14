@@ -14,6 +14,16 @@ module.exports = {
             base: {
             }
         },
+        /**
+         * alias for webpack
+         *
+         * @type {Object.<string, Object>}
+         */
+        alias: {
+            server: {
+                'iscroll/build/iscroll-lite$': path.join(__dirname, 'core/iscroll-ssr.js')
+            }
+        },
         extend(config, {type, env}) {
         }
     },

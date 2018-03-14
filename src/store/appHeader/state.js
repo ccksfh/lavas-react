@@ -15,11 +15,14 @@ export default {
     title: 'Lavas',
 
     /**
-     * logo图标名称
+     * logo图标信息(src/alt)
      *
-     * @type {string}
+     * @type {Object}
      */
-    logoIcon: '',
+    logoIcon: {
+        src: '',
+        alt: ''
+    },
 
     /**
      * 是否展示左侧菜单图标
@@ -27,13 +30,6 @@ export default {
      * @type {boolean}
      */
     showMenu: false,
-
-    /**
-     * 是否展示左侧收藏夹图标
-     *
-     * @type {boolean}
-     */
-    showFavor: false,
 
     /**
      * 是否展示左侧返回图标

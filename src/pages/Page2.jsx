@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
-import RouterView from '@/../core/router-view';
+// import RouterView from '@/../core/router-view';
+import RouterView from '../../core/router-view';
 
 class Page2 extends Component {
+    constructor(props) {
+        super(props);
+    }
 
     render() {
 

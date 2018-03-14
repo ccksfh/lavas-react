@@ -2,8 +2,9 @@ import webpack from 'webpack';
 import WebpackConfig from './webpack';
 import {devMiddleware, hotMiddleware} from 'koa-webpack-middleware';
 import ConfigReader from './config-reader';
-import {LAVAS_CONFIG_FILE} from './constants';
-import {join} from 'path';
+import {LAVAS_CONFIG_FILE, DEFAULT_ENTRY_NAME} from './constants';
+import {writeFileInDev} from './utils/webpack';
+import {join, relative} from 'path';
 
 export default class LavasCore {
     constructor(cwd = process.cwd()) {
@@ -18,6 +19,8 @@ export default class LavasCore {
      * @param {boolean} isInBuild is in build process
      */
     async init(env, isInBuild) {
+        this.env = env;
+        this.isDev = env === 'development';
         this.configReader = new ConfigReader(this.cwd, this.env);
         this.koaMiddleware = this.middlewareComposer;
 
@@ -45,36 +48,54 @@ export default class LavasCore {
         const Router = require('koa-router');
 
         const router = new Router();
-        const webpackConfig = new WebpackConfig(this.config, 'development').base();
-        const compiler = webpack(webpackConfig);
+        const isSsr = this.config.entry.ssr;
+        const webpackConfigMod = new WebpackConfig(this.config, this.env);
+        const compiler = isSsr
+            ? webpack([webpackConfigMod.server(), webpackConfigMod.client()])
+            : webpack(webpackConfigMod.client());
 
         let middlewares = [];
 
+        // middlewares.push(serve(join(this.cwd, relative(this.cwd, this.config.build.path))));
+
         let webpackDevMiddlewareInstance = devMiddleware(compiler, {
-            noInfo: true,
-            publicPath: webpackConfig.output.publicPath,
+            // noInfo: true,
+            publicPath: this.config.build.publicPath,
             reload: true,
             stats: {
                 colors: true
             }
         });
         middlewares.push(webpackDevMiddlewareInstance);
-        middlewares.push(hotMiddleware(compiler));
+        middlewares.push(hotMiddleware(isSsr ? compiler.compilers[1] : compiler));
 
-        router.get('*', (ctx, next) => {
-            ctx.type = 'text/html';
+        if (this.config.entry.ssr) {
+            const ssrMiddleware = require('./server/ssr');
+            middlewares.push(ssrMiddleware(this, compiler.compilers[0]));
+        }
+        else {
+            router.get('*', (ctx, next) => {
+                ctx.type = 'text/html';
 
-            // let entry = ctx.url.replace(/^\//, '');
-            let entry = 'index.html';
+                let entry = DEFAULT_ENTRY_NAME + '.html';
 
-            let filepath = join(compiler.outputPath, entry);
-            webpackDevMiddlewareInstance.waitUntilValid(() => {
-                ctx.body = compiler.outputFileSystem.readFileSync(filepath) + '';
+                let filepath = join(compiler.outputPath, entry);
+                webpackDevMiddlewareInstance.waitUntilValid(() => {
+                    ctx.body = compiler.outputFileSystem.readFileSync(filepath) + '';
+                });
             });
+
+            // middlewares.push(router.routes());
+            // middlewares.push(router.allowedMethods()); 
+        }
+
+        router.get('/favicon.ico', (ctx, next) => {
+            ctx.status = 200;
+            ctx.body = '';
         });
 
         middlewares.push(router.routes());
-        middlewares.push(router.allowedMethods());  
+        middlewares.push(router.allowedMethods());
 
         return composer(middlewares);
     }
