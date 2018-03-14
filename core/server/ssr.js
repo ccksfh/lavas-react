@@ -11,6 +11,8 @@ import renderer from './renderer';
 import {join} from 'path';
 import requireFromString from 'require-from-string';
 import {Helmet} from 'react-helmet';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 export default (core, compiler) => {
     let {cwd, config} = core;
@@ -46,10 +48,14 @@ export default (core, compiler) => {
             let context = {};
 
             // refer to the official website: http://www.material-ui.com/#/get-started/server-rendering
-            // we should set muiTheme to spread the user agent for thw autoprefixer, but it didn't work
-            global.navigator = {userAgent: ctx.headers['user-agent']};
+            // global.navigator = {userAgent: ctx.headers['user-agent']};
+            const muiTheme = getMuiTheme({}, {
+                userAgent: ctx.headers['user-agent']
+            });
             const renderContent = renderToString(
-                <App location={url} context={context} store={store} actions={actions} routes={routes} />
+                <MuiThemeProvider muiTheme={muiTheme}>
+                    <App location={url} context={context} store={store} actions={actions} routes={routes} />
+                </MuiThemeProvider>
             );
             const html = await renderer({
                 config,
