@@ -48,7 +48,7 @@ export default (core, compiler) => {
             let context = {};
 
             // refer to the official website: http://www.material-ui.com/#/get-started/server-rendering
-            // global.navigator = {userAgent: ctx.headers['user-agent']};
+            global.navigator = {userAgent: ctx.headers['user-agent']};
             const muiTheme = getMuiTheme({}, {
                 userAgent: ctx.headers['user-agent']
             });

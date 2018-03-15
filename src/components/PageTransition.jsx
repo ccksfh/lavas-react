@@ -38,6 +38,7 @@ export default class PageTransition extends Component {
                     timeout={{ enter: 1000, exit: 1000 }}
                     onEnter={node => {
                         if (doSlide) {
+                            // slide-xx-enter 的 css 动画初始状态设置不生效，只能先放在这里，看后面有没有更好的解决方法
                             node.style.transform = `translate(${factor * 100}%, 0)`;
                             node.style.transition = 'transform 1s cubic-bezier(.55, 0, .1, 1)';
                         }

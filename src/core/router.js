@@ -47,12 +47,12 @@ let HISTORY_STATE_STACK = [];
 
 let supportHistory = false;
 
-// if (process.env.REACT_ENV === 'client') {
+if (process.env.REACT_ENV === 'client') {
 
     // 是否支持history
     supportHistory = window.history && 'state' in history;
 
-// }
+}
 
 // react-router 里面没有 hook，也没有(默默)拦截路由跳转获取 to、from 的操作，我们只能自己记录
 let routes = [];

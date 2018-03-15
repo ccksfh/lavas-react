@@ -395,14 +395,14 @@ export default class WebpackConfig {
                 // do not externalize CSS files in case we need to import it from a dep
                 // whitelist: [...nodeExternalsWhitelist, /\.(css|jsx)$/]
             }),
-            // plugins: [
-            //     new webpack.DefinePlugin(Object.assign({
-            //         'process.env.REACT_ENV': '"server"',
-            //         'process.env.NODE_ENV': `"${this.env}"`
-            //     }, serverDefines)),
-            //     // add custom plugins in server side
-            //     ...serverPlugins
-            // ]
+            plugins: [
+                new webpack.DefinePlugin(Object.assign({
+                    'process.env.REACT_ENV': '"server"',
+                    'process.env.NODE_ENV': `"${this.env}"`
+                }, serverDefines)),
+                // add custom plugins in server side
+                ...serverPlugins
+            ]
         });
 
         // if (typeof extend === 'function') {
