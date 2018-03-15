@@ -1,8 +1,8 @@
 
 const initialState = {
     enable: true,
-    type: 'none',
-    effect: 'slide'
+    type: 'fade',
+    effect: 'fade'
 };
 
 export let actions = {
