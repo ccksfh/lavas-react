@@ -1,14 +1,9 @@
 import React, {Component} from 'react';
 import {Helmet} from "react-helmet";
-import style from '@/assets/stylus/index.styl';
+import styles from '@/assets/stylus/index.styl';
 class Index extends Component {
 
     render() {
-        let styles = style;
-        if (style.constructor === Array) {
-            styles = style.locals;
-        }
-
         return (
             <React.Fragment>
                 <Helmet titleTemplate="%s - Lavas">

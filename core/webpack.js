@@ -47,7 +47,9 @@ export default class WebpackConfig {
             'css-loader?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]'
         ];
         if (src === 'server') {
-            styleUse.shift();
+            styleUse = [
+                'css-loader/locals?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]'
+            ];
         }
 
         /* eslint-enable fecs-one-var-per-line */

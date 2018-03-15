@@ -1,7 +1,7 @@
 import React from 'react';
 import FontIcon from 'material-ui/FontIcon';
 import {white} from 'material-ui/styles/colors';
-import style from './AppSidebar.styl';
+import styles from './AppSidebar.styl';
 import Sidebar from './Sidebar';
 
 export default class AppSidebar extends React.Component {
@@ -10,11 +10,6 @@ export default class AppSidebar extends React.Component {
     }
 
     render() {
-        let styles = style;
-        if (style.constructor === Array) {
-            styles = style.locals;
-        }
-
         let {show, title, user, blocks, close} = this.props;
         let titleBlock;
         let userBlock;

@@ -1,16 +1,16 @@
 import React from 'react';
-import style from './Sidebar.styl';
+import styles from './Sidebar.styl';
 import IScroll from 'iscroll/build/iscroll-lite';
 
 let rAF = function (cb) {
     setTimeout(cb, 1000 / 60);
 };
-// // 兼容服务器端渲染的情况
-// if (process.env.REACT_ENV === 'client') {
-//     rAF = window.requestAnimationFrame
-//         || window.webkitRequestAnimationFrame
-//         || rAF;
-// }
+// 兼容服务器端渲染的情况
+if (process.env.REACT_ENV === 'client') {
+    rAF = window.requestAnimationFrame
+        || window.webkitRequestAnimationFrame
+        || rAF;
+}
 
 function clientWidth() {
     return document.documentElement.clientWidth;
@@ -59,10 +59,6 @@ export default class Sidebar extends React.Component {
     }
 
     render() {
-        let styles = style;
-        if (style.constructor === Array) {
-            styles = style.locals;
-        }
 
         let wrapperClass = [];
         for (let k of Object.keys(this.state.wrapperClass)) {

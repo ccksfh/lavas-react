@@ -5,15 +5,11 @@ import RouterView from '@/../core/router-view';
 import AppHeader from '@/components/AppHeader';
 import AppSidebar from '@/components/AppSidebar';
 import PageTransition from '@/components/PageTransition';
-import style from '@/assets/stylus/app.styl';
+import styles from '@/assets/stylus/app.styl';
 import '@/assets/css/main.css';
 class App extends Component {
 
     render() {
-        let styles = style;
-        if (style.constructor === Array) {
-            styles = style.locals;
-        }
 
         const {
             routes, location,

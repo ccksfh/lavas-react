@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Helmet} from "react-helmet";
-import style from '@/assets/stylus/search.styl';
+import styles from '@/assets/stylus/search.styl';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -24,11 +24,6 @@ class Search extends Component {
     }
 
     render() {
-        let styles = style;
-        if (style.constructor === Array) {
-            styles = style.locals;
-        }
-
         let {loading, data} = this.state;
 
         return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './AppHeader.styl';
+import styles from './AppHeader.styl';
 import IconButton from 'material-ui/IconButton';
 export default class AppHeader extends React.Component {
     constructor(props) {
@@ -11,11 +11,6 @@ export default class AppHeader extends React.Component {
     }
 
     render() {
-        let styles = style;
-        if (style.constructor === Array) {
-            styles = style.locals;
-        }
-
         const {show, showMenu, showBack, showLogo, logoIcon, title, actions} = this.props;
         let appHeader = '';
         let iconMenu;
