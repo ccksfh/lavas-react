@@ -94,8 +94,7 @@ export default class WebpackConfig {
                                 loader: 'postcss-loader',
                                 options: {
                                     sourceMap: true,
-                                    plugins: [
-                                    ]
+                                    plugins: []
                                 }
                             }
                         ]
