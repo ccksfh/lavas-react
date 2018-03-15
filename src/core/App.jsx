@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
-import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import {Route} from 'react-router-dom';
 import RouterView from '@/../core/router-view';
 import AppHeader from '@/components/AppHeader';
 import AppSidebar from '@/components/AppSidebar';
+import PageTransition from '@/components/PageTransition';
 import style from '@/assets/stylus/app.styl';
 import '@/assets/css/main.css';
-
 class App extends Component {
 
     render() {
@@ -25,29 +24,22 @@ class App extends Component {
 
         return (
             <div className={styles.app}>
-                <AppHeader click={this.handleClick.bind(this)} {...appHeader} />
-                <AppSidebar close={this.handleSidebarClose.bind(this)} {...appSidebar}></AppSidebar>
-                <TransitionGroup>
-                    <CSSTransition
-                        key={location.key} 
-                        timeout={{ enter: 200, exit: 200}}
-                        classNames={pageTransition.effect}
-                        mountOnEnter={true} unmountOnExit={true}
-                        onEnter={this.handleBeforeEnter.bind(this)}
-                        onEntered={this.handleAfterEnter.bind(this)}
-                    >
-                        <div className={[
-                            styles['app-view'],
-                            (appHeader.show ? styles['app-view-with-header'] : ''),
-                            styles[`transition-${pageTransition.type}`]
-                        ].join(' ')}>
-                            <RouterView 
-                                routes={routes} 
-                                location={location}
-                                {...boundActionCreators} />
-                        </div>
-                    </CSSTransition>
-                </TransitionGroup>
+                <PageTransition location={location} pageTransition={pageTransition}>
+                    <div className={[
+                        styles['app-view'],
+                        (appHeader.show ? styles['app-view-with-header'] : ''),
+                        styles[`transition-${pageTransition.effect}`]
+                    ].join(' ')}>
+
+                        <AppHeader click={this.handleClick.bind(this)} {...appHeader} />
+                        <AppSidebar close={this.handleSidebarClose.bind(this)} {...appSidebar}></AppSidebar>
+                        <RouterView
+                            routes={routes}
+                            location={location}
+                            {...boundActionCreators} />
+
+                    </div>
+                </PageTransition>
             </div>
         );
     }

@@ -2,7 +2,7 @@
 const initialState = {
     enable: true,
     type: 'none',
-    effect: 'none'
+    effect: 'slide'
 };
 
 export let actions = {

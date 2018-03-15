@@ -11,7 +11,7 @@ class Page2 extends Component {
 
         return (
             <div>
-                inpage2 outer
+                <p onClick={this.click.bind(this)}>inpage2 outer</p>
                 <RouterView routes={this.props.routes} />
             </div>
         );
@@ -21,7 +21,11 @@ class Page2 extends Component {
         console.log('page2 mount')
 
         const {setAppHeader} = this.props;
-        setAppHeader({show: false});
+        setAppHeader({show: true, showBack: true, showMenu: false});
+    }
+
+    click() {
+        this.props.history.push('/');
     }
 }
 

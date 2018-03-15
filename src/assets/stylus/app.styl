@@ -6,6 +6,9 @@
     -moz-osx-font-smoothing grayscale
     text-align center
     color #2c3e50
+    min-height 100vh
+    max-width 100%
+    position relative
 
     .app-view
         position absolute
@@ -22,26 +25,53 @@
             background transparent
 
         &.app-view-with-header
-            top app-header-height
+            // top app-header-height
+            padding-top app-header-height
 
+        /*
         &.transition-slide
-            transition transform 0.4s cubic-bezier(.55, 0, .1, 1)
+            transition transform 20s cubic-bezier(.55, 0, .1, 1)
+        */
 
         &.transition-fade
             opacity 1
             transition opacity 1s ease
 
-:global(.slide-left-enter)
-    transform translate(100%, 0)
-
 :global(.slide-right-enter)
-    transform translate(-100%, 0)
+    transform translate3d(-100%, 0, 0)
 
-:global(.slide-right-exit-active)
-    transform translate(100%, 0)
+:global(.slide-right-enter-active)
+    transition transform 10s cubic-bezier(.55, 0, .1, 1)
+    transform translate3d(0, 0, 0)
 
-:global(.slide-left-exit-active)
-    transform translate(-100%, 0)
+:global(.slide-right-exit)
+    transform translate3d(0, 0, 0)
+
+:global(.slide-right-exit.slide-right-exit-active)
+    transition transform 10s cubic-bezier(.55, 0, .1, 1)
+    transform translate3d(100%, 0, 0)
+
+:global(.slide-right-exit.slide-left-exit-active)
+    transition transform 10s cubic-bezier(.55, 0, .1, 1)
+    transform translate3d(100%, 0, 0)
+
+:global(.slide-left-enter)
+    transform translate3d(100%, 0, 0)
+
+:global(.slide-left-enter-active)
+    transition transform 10s cubic-bezier(.55, 0, .1, 1)
+    transform translate3d(0, 0, 0)
+
+:global(.slide-left-exit)
+    transform translate3d(0, 0, 0)
+
+:global(.slide-left-exit.slide-left-exit-active)
+    transition transform 10s cubic-bezier(.55, 0, .1, 1)
+    transform translate3d(-100%, 0, 0)
+
+:global(.slide-left-exit.slide-right-exit-active)
+    transition transform 10s cubic-bezier(.55, 0, .1, 1)
+    transform translate3d(-100%, 0, 0)
 
 :global(.fade-enter)
     opacity 0
