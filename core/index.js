@@ -59,7 +59,7 @@ export default class LavasCore {
         // middlewares.push(serve(join(this.cwd, relative(this.cwd, this.config.build.path))));
 
         let webpackDevMiddlewareInstance = devMiddleware(compiler, {
-            // noInfo: true,
+            noInfo: true,
             publicPath: this.config.build.publicPath,
             reload: true,
             stats: {

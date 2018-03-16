@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {CSSTransition, TransitionGroup} from 'react-transition-group';
-import {setRoute, isForward} from '@/core/router';
+import React, { Component } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { setRoute, isForward } from '@/core/router';
 
 const childFactoryCreator = (classNames) => (
     (child) => (
@@ -13,7 +13,7 @@ const childFactoryCreator = (classNames) => (
 export default class PageTransition extends Component {
 
     render() {
-        let {pageTransition, location, children} = this.props;
+        let { pageTransition, location, children } = this.props;
         let doSlide = false;
         let type = pageTransition.type;
         let factor;
@@ -40,14 +40,10 @@ export default class PageTransition extends Component {
                         if (doSlide) {
                             // slide-xx-enter 的 css 动画初始状态设置不生效，只能先放在这里，看后面有没有更好的解决方法
                             node.style.transform = `translate(${factor * 100}%, 0)`;
-                            node.style.transition = 'transform 1s cubic-bezier(.55, 0, .1, 1)';
                         }
                     }}
                     onEntering={node => {
                         doSlide && (node.style.transform = '');
-                    }}
-                    onEntered={node => {
-                        doSlide && (node.style.transition = '');
                     }}>
 
                     {children}

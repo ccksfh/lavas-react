@@ -38,9 +38,10 @@ export default (core, compiler) => {
         let serverBundle = compiler.outputFileSystem.readFileSync(filepath) + '';
         let {App, store, actions, routes} = requireFromString(serverBundle)();
 
-        let plainRoutes = getAllRoutes(routes);
+        // let plainRoutes = getAllRoutes(routes);
 
-        if (!~plainRoutes.indexOf(url)) {
+        // if (!~plainRoutes.indexOf(url)) {
+        if (/^\/static\//.test(url) || /\/api\//.test(url) || /\..*$/.test(url)) {
             await next();
         }
         else {
@@ -80,16 +81,16 @@ export default (core, compiler) => {
     }
 };
 
-function getAllRoutes(routes) {
-    let res = [];
+// function getAllRoutes(routes) {
+//     let res = [];
 
-    for (let route of routes) {
-        res.push(route.path);
+//     for (let route of routes) {
+//         res.push(route.path);
 
-        if (res.children) {
-            res = [...res, ...getAllRoutes(res.children)];
-        }
-    }
+//         if (res.children) {
+//             res = [...res, ...getAllRoutes(res.children)];
+//         }
+//     }
 
-    return res;
-}
+//     return res;
+// }
