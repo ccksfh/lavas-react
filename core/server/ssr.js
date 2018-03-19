@@ -11,8 +11,7 @@ import renderer from './renderer';
 import {join} from 'path';
 import requireFromString from 'require-from-string';
 import {Helmet} from 'react-helmet';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {matchRoutes} from '../utils/route';
 
 export default (core, compiler) => {
     let {cwd, config} = core;
@@ -36,11 +35,8 @@ export default (core, compiler) => {
         // read server bundle compiled by webpack
         let filepath = join(compiler.outputPath, 'server-bundle.js');
         let serverBundle = compiler.outputFileSystem.readFileSync(filepath) + '';
-        let {App, store, actions, routes} = requireFromString(serverBundle)();
+        let {App, store, actions, routes} = requireFromString(serverBundle)(ctx);
 
-        // let plainRoutes = getAllRoutes(routes);
-
-        // if (!~plainRoutes.indexOf(url)) {
         if (/^\/static\//.test(url) || /\/api\//.test(url) || /\..*$/.test(url)) {
             await next();
         }
@@ -48,15 +44,10 @@ export default (core, compiler) => {
             // This context object contains the results of the render
             let context = {};
 
-            // refer to the official website: http://www.material-ui.com/#/get-started/server-rendering
-            global.navigator = {userAgent: ctx.headers['user-agent']};
-            const muiTheme = getMuiTheme({}, {
-                userAgent: ctx.headers['user-agent']
-            });
+            // let matchedComp = matchRoutes(routes, url);
+
             const renderContent = renderToString(
-                <MuiThemeProvider muiTheme={muiTheme}>
-                    <App location={url} context={context} store={store} actions={actions} routes={routes} />
-                </MuiThemeProvider>
+                <App location={url} context={context} store={store} actions={actions} routes={routes} />
             );
             const html = await renderer({
                 config,
@@ -80,17 +71,3 @@ export default (core, compiler) => {
         }
     }
 };
-
-// function getAllRoutes(routes) {
-//     let res = [];
-
-//     for (let route of routes) {
-//         res.push(route.path);
-
-//         if (res.children) {
-//             res = [...res, ...getAllRoutes(res.children)];
-//         }
-//     }
-
-//     return res;
-// }

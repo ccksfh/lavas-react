@@ -5,19 +5,8 @@
 
 import createApp from './createApp';
 
-export default function (context) {
-    // return new Promise((resolve, reject) => {
-        // let {url, config} = context;
-
-        // create app
-        // let {App, store, actions, routes} = createApp();
-
-        // mount store, route and meta on context
-        // context.store = store;
-        // context.routes = routes;
-        // context.meta = app.$meta();
-
-        // resolve();
-    // });
-    return createApp();
+export default function (ctx) {
+    return createApp({
+        userAgent: ctx.header['user-agent']
+    });
 }

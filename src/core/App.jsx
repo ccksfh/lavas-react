@@ -7,6 +7,7 @@ import AppSidebar from '@/components/AppSidebar';
 import PageTransition from '@/components/PageTransition';
 import styles from '@/assets/stylus/app.styl';
 import '@/assets/css/main.css';
+
 class App extends Component {
 
     render() {

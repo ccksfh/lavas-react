@@ -34,11 +34,6 @@ class Bundle extends Component {
                 mod: mod.default ? mod.default : mod
             });
         });
-        // props.load().then((mod) => {
-        //     this.setState({
-        //         mod: mod.default ? mod.default : mod
-        //     });
-        // });
     }
 
     render() {

@@ -6,14 +6,11 @@
 import React from 'react';
 import {BrowserRouter, StaticRouter, withRouter} from 'react-router-dom';
 import {Provider, connect} from 'react-redux';
+import {compose} from 'redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import App from './App';
 import createStore from './createStore';
-
-const muiTheme = getMuiTheme({
-    primaryColor: '#1976d2'
-});
 
 // 基于全局的 state 输出需要的 state
 function mapStateToProps(state) {
@@ -23,9 +20,14 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 }
 
-let AppComponent = withRouter(connect(mapStateToProps)(App));
+const enhance = compose(
+    withRouter,
+    connect(mapStateToProps)
+);
+const AppComponent = enhance(App);
+// const AppComponent = withRouter(connect(mapStateToProps)(App));
 
-export default function createApp() {
+export default function createApp(data) {
     let initialState;
     let Router = StaticRouter;
     let supportsHistory = false;
@@ -36,6 +38,12 @@ export default function createApp() {
     }
 
     const {store, actions, routes} = createStore(initialState);
+
+    const muiTheme = getMuiTheme({
+        primaryColor: '#1976d2'
+    }, {
+        userAgent: data.userAgent
+    });
 
     const BasicApp = ({store, actions, routes, location, context}) => (
         <Router forceRefresh={!supportsHistory} location={location} context={context}>
