@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Helmet} from "react-helmet";
+import {Helmet} from 'react-helmet';
 import styles from '@/assets/stylus/index.styl';
 class Index extends Component {
 
@@ -38,7 +38,7 @@ class Index extends Component {
     }
 };
 
-export function asyncData() {
+export function asyncData({dispatch, states, actions, url}) {
     return new Promise((resolve, reject) => {
         setTimeout(resolve, 2000);
     });

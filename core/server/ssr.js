@@ -44,7 +44,13 @@ export default (core, compiler) => {
             // This context object contains the results of the render
             let context = {};
 
-            // let matchedComp = matchRoutes(routes, url);
+            let matched = matchRoutes(routes, url);
+            await matched.asyncData({
+                dispatch: store.dispatch,
+                states: store.getState(),
+                actions,
+                url
+            });
 
             const renderContent = renderToString(
                 <App location={url} context={context} store={store} actions={actions} routes={routes} />

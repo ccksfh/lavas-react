@@ -10,7 +10,7 @@ export function matchRoutes(routes, url) {
     for (let route of routes) {
         let routeInfo = reform(route.path);
 
-        if (routeInfo.len === urlPathLen && reformExtra(urls, routeInfo.indexArr) === route.path) {
+        if (routeInfo.len === urlPathLen && reformExtra(urls, routeInfo.indexArr) === routeInfo.path) {
             // return route.component;
             return route;
         }

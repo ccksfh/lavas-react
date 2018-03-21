@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Helmet} from "react-helmet";
+import {Helmet} from 'react-helmet';
 import styles from '@/assets/stylus/search.styl';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import IconButton from 'material-ui/IconButton';
@@ -166,9 +166,9 @@ class Search extends Component {
     }
 };
 
-export function asyncData() {
+export function asyncData({dispatch, states, actions, url}) {
     return new Promise((resolve, reject) => {
-        setTimeout(resolve, 5000);
+        setTimeout(resolve, 3000);
     });
 }
 

@@ -16,7 +16,7 @@ class App extends Component {
         const {
             routes, location,
             dispatch, actions,
-            appHeader, appSidebar, pageTransition
+            states: {appHeader, appSidebar, pageTransition}
         } = this.props;
         const boundActionCreators = bindActionCreators(actions, dispatch);
 

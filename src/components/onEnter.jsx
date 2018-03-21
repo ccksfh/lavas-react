@@ -24,16 +24,17 @@ const onEnter = Target => {
             this.doBeforeEnter(this.props);
         }
 
-        componentWillUpdate(nextProps, nextState) {
+        componentWillReceiveProps(nextProps) {
             // 只有切换路由会启用 before hook + 更新暂存
             if (nextProps.location.pathname !== this.props.location.pathname) {
                 this.doBeforeEnter(nextProps);
             }
-            else if (!isequal(nextProps, this.props)) {
-                this.setState({
-                    copyProps: Object.assign({}, nextProps)
-                });
-            }
+            // 主要目的是暂时不让路由更新
+            this.setState({
+                copyProps: Object.assign({}, nextProps, {
+                    location: this.props.location
+                })
+            });
         }
 
         render() {
@@ -54,7 +55,14 @@ const onEnter = Target => {
 
             // await beforeEnter(this.props);
             let matched = matchRoutes(props.routes, props.location.pathname);
-            await matched.asyncData();
+            if (matched) {
+                await matched.asyncData({
+                    dispatch: props.dispatch,
+                    states: props.states,
+                    actions: props.actions,
+                    url: props.location.pathname
+                });
+            }
 
             this.setState({
                 ifDone: true,

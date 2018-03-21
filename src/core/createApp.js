@@ -13,8 +13,10 @@ import App from './App';
 import createStore from './createStore';
 
 // 基于全局的 state 输出需要的 state
-function mapStateToProps(state) {
-    return state;
+function mapStateToProps(states) {
+    return {
+        states
+    }
 }
 
 function mapDispatchToProps(dispatch) {
