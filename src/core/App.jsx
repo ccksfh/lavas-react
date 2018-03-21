@@ -5,6 +5,7 @@ import RouterView from '@/../core/router-view';
 import AppHeader from '@/components/AppHeader';
 import AppSidebar from '@/components/AppSidebar';
 import PageTransition from '@/components/PageTransition';
+import onEnter from '@/components/onEnter';
 import styles from '@/assets/stylus/app.styl';
 import '@/assets/css/main.css';
 
@@ -77,4 +78,11 @@ class App extends Component {
 
 }
 
-export default App;
+// function beforeEnter(props) {
+//     return new Promise((resolve, reject) => {
+//         setTimeout(resolve, 1000);
+//     });
+// }
+
+// export default onEnter(beforeEnter)(App);
+export default onEnter(App);

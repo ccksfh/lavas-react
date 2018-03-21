@@ -115,6 +115,7 @@ function findParent(path) {
  */
 function getRoute(fullpath, filename, lazy) {
     const notMatch = ~fullpath.search('error');
+    const target = getModule(filename);
 
     return {
         path: !notMatch ? fullpath.replace(/index$/, '') : '',
@@ -122,7 +123,9 @@ function getRoute(fullpath, filename, lazy) {
                 .replace(/^\//, '')
                 .replace(':', '')
                 .replace(/(\/)(.)/g, (...match) => match[2].toUpperCase()),
-        component: getModule(filename),
+        // component: getModule(filename),
+        component: target.module,
+        asyncData: target.asyncData,
         exact: true,
         strict: true,
         lazy
@@ -137,7 +140,11 @@ function getRoute(fullpath, filename, lazy) {
  */
 function getModule(filename) {
     const file = context(filename);
-    const module = file.default || file;
+    // const module = file.default || file;
 
-    return module;
+    // return module;
+    return {
+        module: file.default || file,
+        asyncData: file.asyncData || function () {}
+    }
 }

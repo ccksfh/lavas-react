@@ -13,7 +13,7 @@ const childFactoryCreator = (classNames) => (
 export default class PageTransition extends Component {
 
     render() {
-        let { pageTransition, location, children } = this.props;
+        let {pageTransition, location, children} = this.props;
         let doSlide = false;
         let type = pageTransition.type;
         let factor;

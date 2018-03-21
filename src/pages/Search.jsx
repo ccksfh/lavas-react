@@ -166,4 +166,10 @@ class Search extends Component {
     }
 };
 
+export function asyncData() {
+    return new Promise((resolve, reject) => {
+        setTimeout(resolve, 5000);
+    });
+}
+
 export default muiThemeable()(Search);

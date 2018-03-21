@@ -29,7 +29,7 @@ module.exports = {
     },
     entry: {
         name: 'main',
-        ssr: true,
+        ssr: false,
         // mode: 'history',
         base: '/'
         // routes: /^.*$/,
