@@ -1,20 +1,15 @@
-import React, { Component } from 'react';
-
+import React, {Component} from 'react';
 class Page1 extends Component {
     render() {
         return (
             <div>
-                inpage1
+                <p onClick={this.go.bind(this)}>page1</p>
             </div>
         );
     }
 
-    componentDidMount() {
-        console.log('page1 mount')
-    }
-
-    componentWillUnmount() {
-        console.log('page1 unmount')
+    go() {
+        this.props.history.push('/page2/a');
     }
 }
 

@@ -21,7 +21,9 @@ const onEnter = Target => {
         }
 
         componentWillMount() {
-            this.doBeforeEnter(this.props);
+            if (!this.props.ssr && typeof window.__INITIAL_STATE__ === 'undefined') {
+                this.doBeforeEnter(this.props);
+            }
         }
 
         componentWillReceiveProps(nextProps) {

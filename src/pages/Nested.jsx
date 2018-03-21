@@ -8,20 +8,20 @@ class Page2 extends Component {
     }
 
     render() {
-
         return (
             <div>
-                <p onClick={this.click.bind(this)}>inpage2 outer</p>
+                <p onClick={this.click.bind(this)} style={{
+                    fontSize: '16px',
+                    lineHeight: '30px',
+                    marginTop: '30px'
+                }}>nested-page outer framework</p>
                 <RouterView routes={this.props.routes} />
             </div>
         );
     }
 
     componentDidMount() {
-        console.log('page2 mount')
-
-        const {setAppHeader} = this.props;
-        setAppHeader({show: true, showBack: true, showMenu: false});
+        this.props.setAppHeader({show: true, showBack: true, showMenu: false});
     }
 
     click() {

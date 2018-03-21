@@ -46,10 +46,23 @@ export default class WebpackConfig {
             'style-loader',
             'css-loader?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]'
         ];
+        let lazyUse = [
+            {
+                test: /lazy\.jsx?$/,
+                use: [
+                    'bundle-loader?lazy',
+                    {
+                        loader: 'babel-loader',
+                        options: babel
+                    }
+                ]
+            }
+        ];
         if (src === 'server') {
             styleUse = [
                 'css-loader/locals?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]'
             ];
+            lazyUse = [];
         }
 
         /* eslint-enable fecs-one-var-per-line */
@@ -68,16 +81,7 @@ export default class WebpackConfig {
             module: {
                 noParse: /es6-promise\.js$/,
                 rules: [
-                    {
-                        test: /lazy\.jsx?$/,
-                        use: [
-                            'bundle-loader?lazy',
-                            {
-                                loader: 'babel-loader',
-                                options: babel
-                            }
-                        ]
-                    },
+                    ...lazyUse,
                     {
                         test: /\.(js|jsx)$/,
                         use: {
@@ -231,6 +235,10 @@ export default class WebpackConfig {
                 new ManifestPlugin({
                     publicPath,
                     fileName: 'webpack-manifest.json',
+                    // 把 seed 改成 {}，避免 watch mode 情况下被删减的 chunk 还保留在 manifest 里。等待 plugin 更新
+                    // https://github.com/danethurber/webpack-manifest-plugin/issues/127
+                    generate: (seed, files) => 
+                        files.reduce((manifest, { name, path }) => ({ ...manifest, [name]: path }), {}),
                     sort: (a, b) => {
                         let points = x => {
                             if (x.name.indexOf('manifest') !== -1) {
@@ -246,7 +254,8 @@ export default class WebpackConfig {
                         };
                         return points(a) > points(b) ? -1 : 1;
                     },
-                    filter: chunk => !/\/fonts\//.test(chunk.path)
+                    // filter: chunk => !/\/fonts\//.test(chunk.path)
+                    filter: chunk => !/\/fonts\//.test(chunk.path) && !/[0-9]\..*\.js$/.test(chunk.path)
                 }),
 
                 // split vendor js into its own file

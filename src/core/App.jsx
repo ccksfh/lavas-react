@@ -15,7 +15,7 @@ class App extends Component {
 
         const {
             routes, location,
-            dispatch, actions,
+            dispatch, actions, ssr,
             states: {appHeader, appSidebar, pageTransition}
         } = this.props;
         const boundActionCreators = bindActionCreators(actions, dispatch);
@@ -34,6 +34,7 @@ class App extends Component {
                         <RouterView
                             routes={routes}
                             location={location}
+                            ssr={ssr}
                             {...boundActionCreators} />
 
                     </div>

@@ -7,11 +7,11 @@ import React, { Component } from 'react';
 import {Route, Switch} from 'react-router-dom';
 import Bundle from './Bundle';
 
-export default ({routes, location, ...rest}) => (
+export default ({routes, location, ssr, ...rest}) => (
     <Switch location={location}>
     {
         routes && routes.map((route, i) => {
-            route.rest = rest;
+            // route.rest = rest;
             let RouterView;
 
             if (route.path) {
@@ -20,7 +20,7 @@ export default ({routes, location, ...rest}) => (
                         exact={route.exact} strict={route.strict}
                         render={props => {
 
-                            if (route.lazy) {
+                            if (route.lazy && !ssr) {
                                 return (
                                     <Bundle load={route.component}>
                                         {(Container) => <Container {...props} {...route.rest} routes={route.children} />}
@@ -28,7 +28,7 @@ export default ({routes, location, ...rest}) => (
                                 );
                             }
 
-                            return <route.component {...props} {...route.rest} routes={route.children} />;
+                            return <route.component {...props} {...rest} routes={route.children} />;
                         }
                         } />
                 );

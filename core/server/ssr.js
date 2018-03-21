@@ -53,7 +53,10 @@ export default (core, compiler) => {
             });
 
             const renderContent = renderToString(
-                <App location={url} context={context} store={store} actions={actions} routes={routes} />
+                <App 
+                    location={url} context={context} 
+                    store={store} actions={actions} 
+                    routes={routes} ssr />
             );
             const html = await renderer({
                 config,

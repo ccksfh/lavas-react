@@ -11,7 +11,7 @@ if (typeof window.__INITIAL_STATE__ !== 'undefined') {
     renderer = ReactDOM.hydrate;
 }
 
-renderer(
+ReactDOM.render(
     <App store={store} actions={actions} routes={routes} />,
     document.getElementById('app')
 );

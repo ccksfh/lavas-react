@@ -44,14 +44,15 @@ export default function createApp(data) {
     const muiTheme = getMuiTheme({
         primaryColor: '#1976d2'
     }, {
+        // userAgent: 'all'
         userAgent: data.userAgent
     });
 
-    const BasicApp = ({store, actions, routes, location, context}) => (
+    const BasicApp = ({store, actions, routes, location, context, ssr}) => (
         <Router forceRefresh={!supportsHistory} location={location} context={context}>
             <Provider store={store}>
                 <MuiThemeProvider muiTheme={muiTheme}>
-                    <AppComponent routes={routes} actions={actions} />
+                    <AppComponent routes={routes} actions={actions} ssr={ssr}/>
                 </MuiThemeProvider>
             </Provider>
         </Router>
