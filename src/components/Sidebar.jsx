@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Sidebar.styl';
 import IScroll from 'iscroll/build/iscroll-lite';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 let rAF = function (cb) {
     setTimeout(cb, 1000 / 60);
@@ -20,7 +21,7 @@ function clientHeight() {
     return document.documentElement.clientHeight;
 }
 
-export default class Sidebar extends React.Component {
+class Sidebar extends React.Component {
     constructor(props) {
         super(props);
         
@@ -378,3 +379,5 @@ export default class Sidebar extends React.Component {
         e.stopPropagation();
     }
 };
+
+export default withStyles(styles)(Sidebar);

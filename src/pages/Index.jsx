@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Helmet} from 'react-helmet';
 import styles from '@/assets/stylus/index.styl';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 class Index extends Component {
 
     render() {
@@ -44,4 +45,4 @@ export function asyncData({dispatch, states, actions, url}) {
     });
 }
 
-export default Index;
+export default withStyles(styles)(Index);

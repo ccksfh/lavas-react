@@ -29,6 +29,7 @@ export default class PageTransition extends Component {
                 factor = forward ? 1 : -1;
             }
         }
+
         return (
             <TransitionGroup
                 childFactory={childFactoryCreator(type)}

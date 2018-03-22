@@ -1,5 +1,4 @@
-@value color-primary-blue from '@/assets/css/variable.css'
-@value app-header-height from '@/assets/css/variable.css'
+@import '../assets/stylus/variable'
 
 $btn-color = #fff
 
@@ -7,8 +6,8 @@ $btn-color = #fff
     display flex
     justify-content space-between
     align-items center
-    height app-header-height 
-    background color-primary-blue
+    height $app-header-height 
+    background $colorPrimaryBlue
     color $btn-color
     padding 0
     box-shadow 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px rgba(0,0,0,.14), 0 1px 10px rgba(0,0,0,.12)

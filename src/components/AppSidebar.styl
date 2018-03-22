@@ -1,11 +1,7 @@
-@value color-primary-blue from '@/assets/css/variable.css'
+@import '../assets/stylus/variable'
 
 // 左侧触发滑动宽度
 $swipe-width = 20px
-
-$app-sidebar-left-icon-size = 20;
-$app-sidebar-nav-height = 45px;
-$app-sidebar-title-height = 75px;
 
 .app-sidebar-content
     &.app-sidebar-content-right
@@ -52,7 +48,7 @@ $app-sidebar-title-height = 75px;
         font-weight bold
         height $app-sidebar-title-height
         line-height $app-sidebar-title-height
-        background: color-primary-blue
+        background: $colorPrimaryBlue
         text-align left
 
     .app-sidebar-user

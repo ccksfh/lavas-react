@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {Helmet} from 'react-helmet';
 import {Link} from 'react-router-dom'
 import styles from '@/assets/stylus/detail.styl';
-
-export default class OnEnter extends Component {
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
+class Detail extends Component {
     constructor(props) {
         super(props);
     }
@@ -59,3 +59,5 @@ export function asyncData({dispatch, states, actions, url}) {
         setTimeout(resolve, 500);
     });
 }
+
+export default withStyles(styles)(Detail);

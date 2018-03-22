@@ -7,7 +7,8 @@ import AppSidebar from '@/components/AppSidebar';
 import PageTransition from '@/components/PageTransition';
 import onEnter from '@/components/onEnter';
 import styles from '@/assets/stylus/app.styl';
-import '@/assets/css/main.css';
+import globalStyles from '@/assets/css/main.css';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 class App extends Component {
 
@@ -16,7 +17,7 @@ class App extends Component {
         const {
             routes, location,
             dispatch, actions, ssr,
-            states: {appHeader, appSidebar, pageTransition}
+            states: {appHeader, appSidebar, pageTransition, common}
         } = this.props;
         const boundActionCreators = bindActionCreators(actions, dispatch);
 
@@ -29,7 +30,8 @@ class App extends Component {
                         styles[`transition-${pageTransition.effect}`]
                     ].join(' ')}>
 
-                        <AppHeader click={this.handleClick.bind(this)} {...appHeader} />
+                        <AppHeader click={this.handleClick.bind(this)} 
+                            {...appHeader} isPageSwitching={common.isPageSwitching} />
                         <AppSidebar close={this.handleSidebarClose.bind(this)} {...appSidebar}></AppSidebar>
                         <RouterView
                             routes={routes}
@@ -79,11 +81,4 @@ class App extends Component {
 
 }
 
-// function beforeEnter(props) {
-//     return new Promise((resolve, reject) => {
-//         setTimeout(resolve, 1000);
-//     });
-// }
-
-// export default onEnter(beforeEnter)(App);
-export default onEnter(App);
+export default withStyles(Object.assign({}, styles, globalStyles))(onEnter(App));

@@ -10,6 +10,7 @@ import Divider from 'material-ui/Divider';
 import {
     grey400, grey900
 } from 'material-ui/styles/colors';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 class Search extends Component {
 
@@ -172,4 +173,4 @@ export function asyncData({dispatch, states, actions, url}) {
     });
 }
 
-export default muiThemeable()(Search);
+export default withStyles(styles)(muiThemeable()(Search));

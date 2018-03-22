@@ -13,6 +13,7 @@
         ${helmet.link.toString()}
         ${helmet.script.toString()}
         ${helmet.noscript.toString()}
+        <style>${inlineStyle}</style>
     </head>
     <body ${helmet.bodyAttributes.toString()}>
         <div id="app">${content}</div>

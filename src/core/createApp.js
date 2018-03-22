@@ -11,6 +11,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import App from './App';
 import createStore from './createStore';
+import AppProvider from '@/components/AppProvider';
 
 // 基于全局的 state 输出需要的 state
 function mapStateToProps(states) {
@@ -48,11 +49,18 @@ export default function createApp(data) {
         userAgent: data.userAgent
     });
 
-    const BasicApp = ({store, actions, routes, location, context, ssr}) => (
+    const BasicApp = ({
+        store, actions,
+        routes, location,
+        context, ssr,
+        providerContext
+    }) => (
         <Router forceRefresh={!supportsHistory} location={location} context={context}>
             <Provider store={store}>
                 <MuiThemeProvider muiTheme={muiTheme}>
-                    <AppComponent routes={routes} actions={actions} ssr={ssr}/>
+                    <AppProvider context={providerContext}>
+                        <AppComponent routes={routes} actions={actions} ssr={ssr}/>
+                    </AppProvider>
                 </MuiThemeProvider>
             </Provider>
         </Router>

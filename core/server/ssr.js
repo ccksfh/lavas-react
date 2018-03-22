@@ -52,18 +52,24 @@ export default (core, compiler) => {
                 url
             });
 
+            let css = [];
+            const providerContext = {
+                insertCss: (...styles) => styles.forEach(s => css.push(s._getCss()))
+            };
+
             const renderContent = renderToString(
                 <App 
                     location={url} context={context} 
                     store={store} actions={actions} 
-                    routes={routes} ssr />
+                    routes={routes} ssr providerContext={providerContext} />
             );
             const html = await renderer({
                 config,
                 manifest,
                 content: renderContent,
                 data: store.getState(),
-                helmet: Helmet.renderStatic()
+                helmet: Helmet.renderStatic(),
+                inlineStyle: css.join('').replace(/\n/g, '') || ''
             });
 
             if (context.url) {

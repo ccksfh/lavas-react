@@ -3,9 +3,6 @@ import ProgressBar from '@/components/ProgressBar';
 import isequal from 'lodash.isequal';
 import {matchRoutes} from '@/../core/utils/route';
 
-// const onEnter = (
-//     beforeEnter = function () {},
-// ) => Target => {
 const onEnter = Target => {
 
     class OnEnter extends Component {
@@ -18,23 +15,28 @@ const onEnter = Target => {
                 loading: false,
                 copyProps: Object.assign({}, this.props)
             };
+            this.location = this.props.location;
         }
 
         componentWillMount() {
             if (!this.props.ssr && typeof window.__INITIAL_STATE__ === 'undefined') {
-                this.doBeforeEnter(this.props);
+                this.beforeEnter(this.props);
             }
         }
 
         componentWillReceiveProps(nextProps) {
             // 只有切换路由会启用 before hook + 更新暂存
             if (nextProps.location.pathname !== this.props.location.pathname) {
-                this.doBeforeEnter(nextProps);
+                this.location = this.props.location;
+                this.props.dispatch(this.props.actions.setPageSwitching(true));
+                this.beforeEnter(nextProps).then(() => {
+                    this.props.dispatch(this.props.actions.setPageSwitching(false));
+                });
             }
             // 主要目的是暂时不让路由更新
             this.setState({
                 copyProps: Object.assign({}, nextProps, {
-                    location: this.props.location
+                    location: this.location
                 })
             });
         }
@@ -49,13 +51,12 @@ const onEnter = Target => {
                     </React.Fragment>);
         }
 
-        async doBeforeEnter(props) {
+        async beforeEnter(props) {
             this.setState({
                 ifDone: false,
                 loading: true
             });
 
-            // await beforeEnter(this.props);
             let matched = matchRoutes(props.routes, props.location.pathname);
             if (matched) {
                 await matched.asyncData({

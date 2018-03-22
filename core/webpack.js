@@ -10,7 +10,6 @@ import FriendlyErrorsPlugin from 'friendly-errors-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import ManifestPlugin from 'webpack-manifest-plugin';
 import nodeExternals from 'webpack-node-externals';
-import values from 'postcss-modules-values';
 import {join, sep} from 'path';
 import {assetsPath} from './utils/path';
 
@@ -60,7 +59,9 @@ export default class WebpackConfig {
         ];
         if (src === 'server') {
             styleUse = [
-                'css-loader/locals?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]'
+                'isomorphic-style-loader',
+                // 'css-loader/locals?
+                'css-loader?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]'
             ];
             lazyUse = [];
         }
@@ -95,14 +96,7 @@ export default class WebpackConfig {
                     {
                         test: /\.(css|styl)$/,
                         use: [
-                            ...styleUse,
-                            {
-                                loader: 'postcss-loader',
-                                options: {
-                                    sourceMap: true,
-                                    plugins: []
-                                }
-                            }
+                            ...styleUse
                         ]
                     },
                     {
