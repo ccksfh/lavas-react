@@ -11,14 +11,12 @@ import renderer from './renderer';
 import {join} from 'path';
 import requireFromString from 'require-from-string';
 import {Helmet} from 'react-helmet';
-import {matchRoutes} from '../utils/route';
 
 export default (core, compiler) => {
     let {cwd, config} = core;
 
     return async (ctx, next) => {
-        let {req, res} = ctx;
-        let url = req.url;
+        let url = ctx.url;
 
         console.log(`[Lavas] route middleware: ssr ${url}`);
         
@@ -41,27 +39,24 @@ export default (core, compiler) => {
             await next();
         }
         else {
-            // This context object contains the results of the render
-            let context = {};
-
-            let matched = matchRoutes(routes, url);
-            await matched.asyncData({
-                dispatch: store.dispatch,
-                states: store.getState(),
-                actions,
-                url
-            });
-
             let css = [];
             const providerContext = {
                 insertCss: (...styles) => styles.forEach(s => css.push(s._getCss()))
             };
 
+            let error;
+            const catchError = (err) => {
+                error = err; 
+            };
+
+            // components can add properties to the object to store information about the render
+            let context = {};
             const renderContent = renderToString(
                 <App 
                     location={url} context={context} 
-                    store={store} actions={actions} 
-                    routes={routes} ssr providerContext={providerContext} />
+                    store={store} actions={actions} appContext={ctx}
+                    routes={routes} ssr providerContext={providerContext} 
+                    catchError={catchError} />
             );
             const html = await renderer({
                 config,
@@ -72,11 +67,14 @@ export default (core, compiler) => {
                 inlineStyle: css.join('').replace(/\n/g, '') || ''
             });
 
-            if (context.url) {
-                res.writeHead(302, {
-                    Location: context.url
-                });
-                res.end();
+            // context.url exists if <Redirect /> is used
+            if (error) {
+                ctx.throw(error.status || 500, error.message || 'unknown error');
+            }
+            else if (context.url) {
+                ctx.status = 302;
+                ctx.redirect(context.url);
+                ctx.body = `Redirecting to ${context.url}`;
             }
             else {
                 ctx.res.setHeader('Content-Type', 'text/html; charset=utf-8');

@@ -70,15 +70,6 @@ class App extends Component {
     handleSidebarClose() {
         this.props.dispatch(this.props.actions.hideSidebar());
     }
-
-    handleBeforeEnter() {
-
-    }
-
-    handleAfterEnter() {
-
-    }
-
 }
 
 export default withStyles(Object.assign({}, styles, globalStyles))(onEnter(App));

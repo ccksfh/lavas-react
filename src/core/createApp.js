@@ -20,15 +20,14 @@ function mapStateToProps(states) {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-}
+// function mapDispatchToProps(dispatch) {}
 
 const enhance = compose(
     withRouter,
     connect(mapStateToProps)
 );
 const AppComponent = enhance(App);
-// const AppComponent = withRouter(connect(mapStateToProps)(App));
+// withRouter(connect(mapStateToProps)(App));
 
 export default function createApp(data) {
     let initialState;
@@ -45,21 +44,23 @@ export default function createApp(data) {
     const muiTheme = getMuiTheme({
         primaryColor: '#1976d2'
     }, {
-        // userAgent: 'all'
-        userAgent: data.userAgent
+        userAgent: data.userAgent // 'all'
     });
 
     const BasicApp = ({
         store, actions,
-        routes, location,
-        context, ssr,
-        providerContext
+        routes, location, context,
+        providerContext, appContext, ssr,
+        catchError
     }) => (
         <Router forceRefresh={!supportsHistory} location={location} context={context}>
             <Provider store={store}>
                 <MuiThemeProvider muiTheme={muiTheme}>
                     <AppProvider context={providerContext}>
-                        <AppComponent routes={routes} actions={actions} ssr={ssr}/>
+                        <AppComponent 
+                            routes={routes} actions={actions} 
+                            ssr={ssr} context={appContext} 
+                            catchError={catchError} />
                     </AppProvider>
                 </MuiThemeProvider>
             </Provider>
@@ -72,5 +73,4 @@ export default function createApp(data) {
         actions,
         routes
     };
-
 };

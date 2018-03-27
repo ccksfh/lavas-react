@@ -3,7 +3,7 @@
  * @author lavas
  */
 
-export function matchRoutes(routes, url) {
+export function matchRoutes(routes, url, matches = []) {
     let urls = url.split('/');
     let urlPathLen = urls.length;
 
@@ -11,18 +11,23 @@ export function matchRoutes(routes, url) {
         let routeInfo = reform(route.path);
 
         if (routeInfo.len === urlPathLen && reformExtra(urls, routeInfo.indexArr) === routeInfo.path) {
-            // return route.component;
-            return route;
+            matches.push(route);
         }
 
         if (route.children) {
+            matches.push(route);
+
             let matched = matchRoutes(route.children, url);
-            if (matched) {
-                return matched;
+
+            if (matched && matched.length) {
+                matches = [...matches, ...matched];
+            }
+            else {
+                matches.pop();
             }
         }
     }
-    return null;
+    return matches;
 };
 
 function trim(str) {
